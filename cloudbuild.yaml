@@ -21,6 +21,10 @@ steps:
       - '--platform'
       - 'managed'
       - '--allow-unauthenticated'
+      - '--service-account'
+      - '711582759542-compute@developer.gserviceaccount.com'
+      - '--project'
+      - 'myresume-457817'
       - '--port'
       - '8080'
 

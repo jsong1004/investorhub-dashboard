@@ -1,0 +1,32 @@
+steps:
+  # Build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/myresume-457817/investorhub-dashboard', '.']
+  
+  # Push the container image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/myresume-457817/investorhub-dashboard']
+  
+  # Deploy container image to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'investorhub-dashboard'
+      - '--image'
+      - 'gcr.io/myresume-457817/investorhub-dashboard'
+      - '--region'
+      - 'us-central1'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--port'
+      - '8080'
+
+# Store images in Container Registry
+images:
+  - 'gcr.io/myresume-457817/investorhub-dashboard'
+
+# Optional: Set build timeout
+timeout: '1200s'

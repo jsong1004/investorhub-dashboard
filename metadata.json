@@ -1,0 +1,5 @@
+{
+  "name": "InvestorHub - Startup Investment Dashboard",
+  "description": "A dashboard to track and analyze startup investments, featuring top companies by total investment secured.",
+  "requestFramePermissions": []
+}

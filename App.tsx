@@ -55,22 +55,11 @@ const App: React.FC = () => {
       setLoading(true);
       setError(null);
       try {
-        // Check if data exists
-        const snapshotCheck = await getDocs(query(investmentsCollectionRef, limit(1)));
-        if (snapshotCheck.empty) {
-          console.log('No data found in Firestore. Seeding data...');
-          await seedDataToFirestore();
-        } else {
-          console.log('Data already exists in Firestore. Skipping seed.');
-        }
-
-        // Fetch all data
+        // Fetch all data (do not auto-seed if empty)
         const dataSnapshot = await getDocs(investmentsCollectionRef);
         const investmentsList = dataSnapshot.docs.map(doc => ({
           ...doc.data(),
-          // Document ID from firestore doc can be used if not in data
-          // "Document ID": doc.id, 
-        } as InvestmentData)); // Cast to InvestmentData
+        } as InvestmentData));
         setInvestments(investmentsList);
       } catch (e) {
         console.error("Error fetching investments: ", e);

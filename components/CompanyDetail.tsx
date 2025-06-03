@@ -1,6 +1,18 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { InvestmentData, InvestmentScore } from '../types';
+import { Radar } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  RadialLinearScale,
+  PointElement,
+  LineElement,
+  Filler,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+
+ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
 interface CompanyDetailProps {
   investments: InvestmentData[];
@@ -65,6 +77,41 @@ const CompanyDetail: React.FC<CompanyDetailProps> = ({ investments }) => {
 
   const totalRationales = Object.values(rationaleDistribution).reduce((sum, count) => sum + count, 0);
 
+  // Prepare data for radar chart
+  const radarLabels = scoreCategories.map(category =>
+    category.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())
+  );
+  const radarData = {
+    labels: radarLabels,
+    datasets: [
+      {
+        label: 'Average Score',
+        data: scoreCategories.map(category => averageScores[category]),
+        backgroundColor: 'rgba(79, 70, 229, 0.2)', // Indigo-600 with opacity
+        borderColor: 'rgba(79, 70, 229, 1)',
+        borderWidth: 2,
+        pointBackgroundColor: 'rgba(79, 70, 229, 1)',
+      },
+    ],
+  };
+  const radarOptions = {
+    scales: {
+      r: {
+        min: 0,
+        max: 10,
+        ticks: { stepSize: 2, color: '#64748b' },
+        pointLabels: { color: '#334155', font: { size: 14 } },
+        grid: { color: '#e5e7eb' },
+        angleLines: { color: '#e5e7eb' },
+      },
+    },
+    plugins: {
+      legend: { display: false },
+    },
+    responsive: true,
+    maintainAspectRatio: false,
+  };
+
   return (
     <div className="max-w-6xl mx-auto p-6">
       <div className="mb-6">
@@ -102,20 +149,10 @@ const CompanyDetail: React.FC<CompanyDetailProps> = ({ investments }) => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
         {/* Investor Feedback Summary */}
-        <div className="bg-white rounded-lg shadow-lg p-6">
+        <div className="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center">
           <h2 className="text-2xl font-semibold mb-4 text-gray-800">Average Scores Across All Criteria</h2>
-          <div className="space-y-4">
-            {scoreCategories.map(category => (
-              <div key={category} className="flex justify-between items-center p-3 bg-gray-50 rounded">
-                <span className="text-sm font-medium text-gray-700">{category}</span>
-                <div className="flex items-center gap-2">
-                  <span className="text-lg font-bold text-blue-600">
-                    {averageScores[category].toFixed(1)}
-                  </span>
-                  <span className="text-xs text-gray-500">/10</span>
-                </div>
-              </div>
-            ))}
+          <div style={{ width: 400, height: 400 }}>
+            <Radar data={radarData} options={radarOptions} />
           </div>
         </div>
 

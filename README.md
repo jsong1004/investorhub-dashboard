@@ -41,6 +41,21 @@ npm run dev
 ```
 Visit the local URL shown in your terminal (usually http://localhost:5173).
 
+## Investment Scoring Categories
+
+The dashboard uses the following investment scoring categories (as shown in the radar chart):
+
+- Business Model & Traction
+- Competitive Advantage
+- Financials & Ask
+- Innovation and Industry/Social Impact *(normalized: divided by 3 for chart display)*
+- Market Opportunity
+- Presentation & Storytelling
+- Problem and Solution
+- Team
+
+These categories are used for both data entry and visualization. The radar chart automatically wraps long labels for clarity.
+
 ## Build for Production
 ```bash
 npm run build

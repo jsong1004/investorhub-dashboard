@@ -33,10 +33,12 @@ const TopCompaniesByScoreTable: React.FC<TopCompaniesByScoreTableProps> = ({ inv
 
     // Sort and rank
     companyAverages.sort((a, b) => b.averageScore - a.averageScore);
-    const ranked = companyAverages.map((company, index) => ({
-      ...company,
-      rank: index + 1,
-    }));
+    const ranked = companyAverages
+      .slice(0, 3) // Get only top 3
+      .map((company, index) => ({
+        ...company,
+        rank: index + 1,
+      }));
 
     setRankedCompanies(ranked);
   }, [investments]);
@@ -45,7 +47,7 @@ const TopCompaniesByScoreTable: React.FC<TopCompaniesByScoreTableProps> = ({ inv
     <div className="bg-white p-6 rounded-lg shadow-lg">
       <h2 className="text-2xl font-semibold text-gray-800 mb-1">
         <span role="img" aria-label="star" className="mr-2">⭐</span>
-        Top Companies by Average Investment Score
+        Top 3 Average Investment Score
       </h2>
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
@@ -72,13 +74,6 @@ const TopCompaniesByScoreTable: React.FC<TopCompaniesByScoreTableProps> = ({ inv
                 <td colSpan={3} className="px-6 py-4 text-center text-sm text-gray-500">
                   No investment data available.
                 </td>
-              </tr>
-            )}
-            {rankedCompanies.length > 3 && (
-              <tr>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-500">...</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">...</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">...</td>
               </tr>
             )}
           </tbody>

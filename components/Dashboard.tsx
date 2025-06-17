@@ -1,8 +1,6 @@
 import React from 'react';
 import { InvestmentData } from '../types';
-import TopCompaniesTable from './TopCompaniesTable';
 import TopCompaniesByScoreTable from './TopCompaniesByScoreTable';
-import TopCompaniesByMostInspiringPitch from './TopCompaniesByMostInspiringPitch';
 import TopCompaniesByInspiringPitch from './TopCompaniesByInspiringPitch';
 import { PROJECTS } from '../constant';
 
@@ -30,14 +28,12 @@ const Dashboard: React.FC<DashboardProps> = ({ investments }) => {
         {/* Left Column - Investment Based Rankings */}
         <div className="space-y-8">
           <h2 className="text-2xl font-bold text-gray-800 mb-4">Investment Based Rankings</h2>
-          <TopCompaniesTable investments={investments} />
           <TopCompaniesByScoreTable investments={investments} />
         </div>
 
         {/* Right Column - User Picked Rankings */}
         <div className="space-y-8">
           <h2 className="text-2xl font-bold text-gray-800 mb-4">User Picked Rankings</h2>
-          <TopCompaniesByMostInspiringPitch />
           <TopCompaniesByInspiringPitch />
         </div>
       </div>

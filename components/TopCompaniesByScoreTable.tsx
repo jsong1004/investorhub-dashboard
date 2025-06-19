@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { InvestmentData } from '../types';
+import { Link } from 'react-router-dom';
 
 interface CompanyScoreSummary {
   rank: number;
@@ -63,7 +64,14 @@ const TopCompaniesByScoreTable: React.FC<TopCompaniesByScoreTableProps> = ({ inv
               rankedCompanies.map(company => (
                 <tr key={company.companyName} className="hover:bg-gray-50 transition-colors duration-150">
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{company.rank}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{company.companyName}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                    <Link 
+                      to={`/company/${encodeURIComponent(company.companyName)}`}
+                      className="text-blue-600 hover:text-blue-800 hover:underline font-medium"
+                    >
+                      {company.companyName}
+                    </Link>
+                  </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 font-semibold">
                     {company.averageScore.toFixed(1)}
                   </td>

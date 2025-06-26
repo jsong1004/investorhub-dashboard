@@ -1,4 +1,3 @@
-
 export const SCORING_CATEGORIES: string[] = [
   'Problem and Solution',
   'Market Opportunity',
@@ -31,6 +30,8 @@ export const PREDEFINED_RATIONALE_TAGS: string[] = [
   'Strategic Fit',
 ];
 
+export const NUM_DISPLAY = 12;
+
 export const MAX_INVESTMENT_AMOUNT: number = 1000000;
 export const MIN_RATING: number = 0;
 export const MAX_RATING: number = 10;
@@ -39,6 +40,6 @@ export const PROJECTS = [
   {
     id: 1001,
     name: 'The Startup World Cup Seattle Regional',
-    description: `The event brings together the brightest entrepreneurs, investors, and industry leaders to witness Seattle’s top startups compete for a chance to represent the region at the global Startup World Cup finals and win a $1 million investment prize.`
+    description: `The event brings together the brightest entrepreneurs, investors, and industry leaders to witness Seattle's top startups compete for a chance to represent the region at the global Startup World Cup finals and win a $1 million investment prize.`
   }
 ];

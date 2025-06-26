@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { InvestmentData } from '../types';
 import { Link } from 'react-router-dom';
+import { NUM_DISPLAY } from '../constant';
 
 interface CompanyScoreSummary {
   rank: number;
@@ -35,7 +36,7 @@ const TopCompaniesByScoreTable: React.FC<TopCompaniesByScoreTableProps> = ({ inv
     // Sort and rank
     companyAverages.sort((a, b) => b.averageScore - a.averageScore);
     const ranked = companyAverages
-      .slice(0, 3) // Get only top 3
+      .slice(0, NUM_DISPLAY)
       .map((company, index) => ({
         ...company,
         rank: index + 1,
@@ -48,7 +49,7 @@ const TopCompaniesByScoreTable: React.FC<TopCompaniesByScoreTableProps> = ({ inv
     <div className="bg-white p-6 rounded-lg shadow-lg">
       <h2 className="text-2xl font-semibold text-gray-800 mb-1">
         <span role="img" aria-label="star" className="mr-2">⭐</span>
-        Top 3 Average Investment Score
+        Top {NUM_DISPLAY} Average Investment Score
       </h2>
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">

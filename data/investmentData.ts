@@ -1,5 +1,6 @@
 import { InvestmentData, InvestmentScore } from '../types';
 import { getFirestore } from "firebase/firestore";
+import { PROJECT_ID } from '../constant';
 
 const companyNames = ["AI Control", "Blue Signal", "DolbomDream", "EMCT", "INNATURE", "Lasker", "WiPowerOne"];
 const investorNames = ["1", "2", "3", "4", "5"];
@@ -47,7 +48,7 @@ investorNames.forEach(investorName => {
       confidenceLevel: Math.floor(Math.random() * 10) + 1,
       customRationale: String(Math.floor(Math.random() * 10) + 1),
       investmentAmount: Math.floor(Math.random() * (1000000 - 10000 + 1)) + 10000,
-      projectId: 1001,
+      projectId: PROJECT_ID,
       rationaleTags: [rationaleTagOptions[Math.floor(Math.random() * rationaleTagOptions.length)]],
       scores: generateScores(),
       submissionTimestamp: generateTimestamp(timestampCounter * 5) // Spread timestamps by 5 mins

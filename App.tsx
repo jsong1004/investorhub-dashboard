@@ -6,7 +6,8 @@ import Dashboard from './components/Dashboard';
 import CompanyDetail from './components/CompanyDetail';
 import { InvestmentData } from './types';
 import { db } from './firebaseConfig'; // Ensure this path is correct
-import { collection, addDoc, getDocs, writeBatch, query, limit } from 'firebase/firestore';
+import { collection, addDoc, getDocs, writeBatch, query, limit, where } from 'firebase/firestore';
+import { PROJECT_ID } from './constant';
 
 import { allInvestmentData } from './data/investmentData';
 import { initializeApp } from "firebase/app";
@@ -55,11 +56,17 @@ const App: React.FC = () => {
       setLoading(true);
       setError(null);
       try {
-        // Fetch all data (do not auto-seed if empty)
-        const dataSnapshot = await getDocs(investmentsCollectionRef);
+        // Fetch data filtered by PROJECT_ID
+        const investmentsQuery = query(
+          investmentsCollectionRef,
+          where("projectId", "==", PROJECT_ID)
+        );
+        const dataSnapshot = await getDocs(investmentsQuery);
         const investmentsList = dataSnapshot.docs.map(doc => ({
           ...doc.data(),
         } as InvestmentData));
+        
+        console.log(`Fetched ${investmentsList.length} investments for project ID ${PROJECT_ID}`);
         setInvestments(investmentsList);
       } catch (e) {
         console.error("Error fetching investments: ", e);
@@ -85,7 +92,7 @@ const App: React.FC = () => {
           {loading && (
             <div className="flex justify-center items-center h-64">
               <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-brand-primary"></div>
-              <p className="ml-4 text-xl text-gray-700">Loading Investments...</p>
+              <p className="ml-4 text-xl text-gray-700">Loading Investments for Project {PROJECT_ID}...</p>
             </div>
           )}
           {error && (

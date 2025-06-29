@@ -27,6 +27,8 @@ steps:
       - 'myresume-457817'
       - '--port'
       - '8080'
+      - '--set-env-vars'
+      - 'PROJECT_ID=1001'
 
 # Store images in Container Registry
 images:

@@ -1,3 +1,6 @@
+// Get PROJECT_ID from environment variable, default to 1001
+export const PROJECT_ID = parseInt(process.env.PROJECT_ID || '1001', 10);
+
 export const SCORING_CATEGORIES: string[] = [
   'Problem and Solution',
   'Market Opportunity',

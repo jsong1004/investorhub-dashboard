@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
-import { NUM_DISPLAY } from '../constant';
+import { NUM_DISPLAY, PROJECT_ID } from '../constant';
 
 interface VoteData {
   companyName: string;
@@ -19,7 +19,12 @@ const TopCompaniesByInspiringPitch: React.FC = () => {
     const fetchVotes = async () => {
       try {
         const votesRef = collection(db, 'Startup-World-Cup-Seattle-Regional-Votes');
-        const querySnapshot = await getDocs(votesRef);
+        // Filter by PROJECT_ID if the field exists in the vote documents
+        const votesQuery = query(
+          votesRef,
+          where("projectId", "==", PROJECT_ID)
+        );
+        const querySnapshot = await getDocs(votesQuery);
         
         // Count votes for each company based on inspiring_pitch field
         const voteCounts: { [key: string]: number } = {};
@@ -41,6 +46,7 @@ const TopCompaniesByInspiringPitch: React.FC = () => {
             rank: index + 1
           }));
 
+        console.log(`Fetched ${querySnapshot.size} votes for project ID ${PROJECT_ID}`);
         setRankedCompanies(sortedCompanies);
         setLoading(false);
       } catch (err) {
@@ -56,7 +62,7 @@ const TopCompaniesByInspiringPitch: React.FC = () => {
   if (loading) {
     return (
       <div className="bg-white p-6 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4">Loading...</h2>
+        <h2 className="text-2xl font-semibold text-gray-800 mb-4">Loading votes for Project {PROJECT_ID}...</h2>
       </div>
     );
   }

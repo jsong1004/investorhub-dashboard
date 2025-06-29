@@ -82,10 +82,18 @@ A comprehensive dashboard for tracking and analyzing startup investments and pit
 
 - Uses custom Firestore database named "investorhub"
 - Collections:
-  - Investment records
-  - Startup World Cup Seattle Regional votes
+  - Investment records (filtered by `projectId`)
+  - Startup World Cup Seattle Regional votes (filtered by `projectId`)
 - Auto-seeds mock data if collections are empty
 - Comprehensive error handling for Firebase operations
+
+### Data Filtering by Project ID
+
+All data queries are automatically filtered by the `PROJECT_ID` environment variable:
+- **Investment data**: Filtered by `projectId` field
+- **Vote data**: Filtered by `projectId` field
+- This ensures the dashboard only shows data for the specified project
+- To switch between projects, simply change the `PROJECT_ID` environment variable and restart the development server
 
 ## Contributing
 
@@ -114,10 +122,19 @@ npm install
 ```
 
 ### 3. Set up environment variables
-Create a `.env.local` file in the project root and add your Gemini API key:
+Create a `.env.local` file in the project root based on `.env.example`:
 ```env
+# Project Configuration
+PROJECT_ID=1001
+
+# API Keys
 GEMINI_API_KEY=your_gemini_api_key_here
 ```
+
+**PROJECT_ID Configuration:**
+- Set `PROJECT_ID` to filter data for a specific project
+- Default: `1001` (The Startup World Cup Seattle Regional)
+- This allows you to view dashboards for different projects without redeploying
 
 ### 4. Configure Firebase
 - Update `firebaseConfig.ts` with your Firebase project credentials.
